@@ -18,7 +18,7 @@ namespace lethithuhang_lab456.Controllers
             _dbContext = new ApplicationDbContext();
         }
         [HttpPost]
-        public IHttpActionResult Attend(FollowingDto followingDto)
+        public IHttpActionResult Follow(FollowingDto followingDto)
         {
             var userId = User.Identity.GetUserId();
             if (_dbContext.Followings.Any(f => f.FolloweeId == userId && f.FolloweeId == followingDto.FolloweeId))
