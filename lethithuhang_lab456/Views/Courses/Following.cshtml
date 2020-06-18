@@ -1,0 +1,65 @@
+﻿@using Microsoft.AspNet.Identity;
+@model lethithuhang_lab456.ViewModels.FollowingViewModel
+@{
+    ViewBag.Title = "Following";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Following</h2>
+<div class="row">
+    <ul class="course">
+        @foreach (var follow in Model.Followings)
+        {
+            <li>
+                <div class="hangngu">
+                    <ul>
+                        <li style="list-style:none">@follow.Name</li>
+                    </ul>
+                 
+                    
+                </div>
+                
+            </li>
+        }
+    </ul>
+</div>
+<style>
+    .hangngu{
+        font-weight:bold;
+        color:white;
+        padding-top:2px;
+        width:200px;
+        height:30px;
+        background-color:red;
+        border-radius:25px;
+
+    }
+</style>
+@section scripts{
+    <script>
+        $('.js-unfollow').click(function () {
+            var link = $(this);
+            bootbox.confirm("Are you sure to cancel?", function () {
+                var followeeId = link.attr('data-followee-id');
+                var followerId = link.attr('data-follower-id');
+                //$.post('/api/Followings/UnFollow', { FollowerId: followerId, FolloweeId: followeeId }).done(function () {
+                //    link.remove();
+                //}).fail(function () { alert('something failed!') });
+
+                $.ajax({
+                    url: "/api/unfollow/" + followerId + "/" + followeeId,
+                    method: "DELETE"
+                }).done(function () {
+                    link.parents("li").fadeOut(function () {
+                        this.remove();
+                    });
+                }).fail(function () {
+                    alert("Something failed");
+                });
+
+            });
+        });
+    </script>
+}
+
+
